@@ -1,5 +1,5 @@
 /** @jsx jsx */ import { jsx } from '@emotion/core'
-import React from 'react'
+import React , {useState} from 'react'
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -8,6 +8,12 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Avatar } from "@material-ui/core";
 import { css } from '@emotion/core'
 import Tooltip from '@material-ui/core/Tooltip';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 
 const headerFlex = css`
     display: flex;
@@ -17,6 +23,7 @@ const headerFlex = css`
     position: sticky;
     top: 0;
     z-index: 100;
+    background: #fff;
 `;
 
 const headerLogo = css`
@@ -67,15 +74,18 @@ const headerIconsOptions = css`
 `;
 
 function Header() {
+    const [inputSearch, setInputSearch] = useState('')
     return (
         <div className="header" css={headerFlex}>
             <div className="header__left" css={headerLeft}>
                 <MenuIcon />
-                <img
-                    className="youtube__logo"
-                    src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/200px-YouTube_Logo_2017.svg.png"
-                    css={headerLogo}
-                />
+                <Link to={'/'}>
+                    <img
+                        className="youtube__logo"
+                        src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/200px-YouTube_Logo_2017.svg.png"
+                        css={headerLogo}
+                    />
+                </Link>    
             </div>
 
             <div className="header__search" css={headerInput}>
@@ -83,11 +93,15 @@ function Header() {
                     type="text" 
                     css={headerInputText}
                     placeholder="Search"
+                    value={inputSearch}
+                    onChange={ e => setInputSearch(e.target.value)}
                 />
-                <SearchIcon 
-                    className="header__searchBtn" 
-                    css={headerSearch}
-                />
+                <Link to={`/search/${setInputSearch}`}>
+                    <SearchIcon 
+                        className="header__searchBtn" 
+                        css={headerSearch}
+                    />
+                </Link>
             </div>
 
             <div className="header__right" css={headerIcons}>
